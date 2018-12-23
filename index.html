@@ -9,7 +9,7 @@
     </head>
     <body>
         <div id=header class=vm-header></div>
-        <div id=content><div id=vm_loader class="loader_0"></div></div>
+        <div id=content><!--<div id=vm_loader class="loader_0"></div>--></div>
         <div id=footer></div>
         <div id=components style='display:none'>
             <div id=c_header>
@@ -19,10 +19,10 @@
                 </div>
                 <div class=vm-desk-logo>
                     <div id=vm-logo-image></div>
-                    <div style='display:inline-block;color:#333;padding-left:80px'><h1>Online Questionnaire</h1></div>
+                    <div style='display:inline-block;color:#fff;padding-left:80px'><h1>Online Questionnaire</h1></div>
                 </div>
                 <div menu id="vm-menu">
-                    <a id=vm_signout class=vm-hide onclick=$vm.nav_signout()><i class="fa fa-user"></i> Sign Out</a>
+                    <a id=vm_signout class=vm-hide onclick=$vm.signout()><i class="fa fa-user"></i> Sign Out</a>
                 </div>
             </div>
             <div id=c_footer>
@@ -31,33 +31,66 @@
         </div>
     </body>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.2.1.min.js"></script>
-    <script main>
+    <script main-code>
         //------------------------------------
-        $vm={};$VmAPI={};$vm.ver=[1.10,1.09];
+        $vm={};$vm.ver=[0.11,0.11];
         $vm.start_time=new Date().getTime();
-        $vm.api_path_development="https://cbs.wappsystem.com/dev/";
-        $vm.api_path_production="https://rt.woolcock.org.au/pro/";
-        $vm.default_production="Yes";
-        $vm.qid='91000127';
-        $vm.vm_router=1;
+        $vm.api_address="https://api.wappsystem.com";
+        if(window.location.toString().indexOf('_p=1')!=-1) $vm.api_address="https://api.wappsystem.com:3000";
         if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost') $vm.localhost=true;
         //------------------------------------
-        $vm.module_links=[
-            "https://apap-ohs.rt.org.au/modules.json",
-        ];
         $vm.module_list={
-            "home": {"url":"https://apap-ohs.rt.org.au/modules/online-questionnaire/home.html"},
+            "quest-panel":                  {"url":"$A/o/online-questionnaire-panel.html"},
+            "home":                         {"url":"$A/o/online-questionnaire-login.html"},
+
+            "frame":                        {"url":"$A/f/frame.html"},
+
+            "2-columns-contents": 			{"url":"$A/2/2-columns-contents.html","router":1},
+    		"about":  		  	  			{"url":"$A/a/about.html","router":1},
+    		"autocomplete-data":  			{"url":"$A/a/autocomplete-data.html","App":"module","Table":"autocomplete","form_module":"autocomplete-form","router":1},
+    		"autocomplete-form":  			{"url":"$A/a/autocomplete-form.html","App":"module","Table":"autocomplete"},
+    		"bubble":  		  	  			{"url":"$A/b/bubble.html","router":1},
+    		"clinical-trials-data-entry": 	{"url":"$A/c/clinical-trials-data-entry.html"},
+    		"carousel":  		  			{"url":"$A/c/carousel.html","router":1},
+    		"checkbox-data":      			{"url":"$A/c/checkbox-data.html","App":"module","Table":"checkbox","form_module":"checkbox-form","router":1},
+    		"checkbox-form":      			{"url":"$A/c/checkbox-form.html","App":"module","Table":"checkbox"},
+    		"consent-data":  	  			{"url":"$A/c/consent-data.html","App":"module","Table":"consent","form_module":"consent-form"},
+    		"consent-form":  	  			{"url":"$A/c/consent-form.html","App":"module","Table":"consent"},
+            "color-data":      	  			{"url":"$A/c/color-data.html","App":"module","Table":"color","form_module":"color-form","router":1},
+    		"color-form":      	  			{"url":"$A/c/color-form.html","App":"module","Table":"color"},
+    		"date-data":      	  			{"url":"$A/d/date-data.html","App":"module","Table":"date","form_module":"date-form","router":1},
+    		"date-form":      	 		 	{"url":"$A/d/date-form.html","App":"module","Table":"date"},
+            "ess-data":      	  			{"url":"$A/e/epworth-sleepiness-scale-data.html","App":"module","Table":"ess","form_module":"ess-form"},
+    		"ess-form":      	  			{"url":"$A/e/epworth-sleepiness-scale-form.html","App":"module","Table":"ess"},
+            "file-data":      	  			{"url":"$A/f/file-data.html","App":"module","Table":"file","form_module":"file-form","router":1},
+    		"file-form":      	  			{"url":"$A/f/file-form.html","App":"module","Table":"file"},
+            "fountains-illumination":		{"url":"$A/f/fountains-illumination.html","router":1},
+    		"hello-world": 		  			{"url":"$A/h/hello-world.html","router":1},
+    		"nasa":  		  	  			{"url":"$A/n/nasa.html","router":1},
+    		"nyan":  		  	  			{"url":"$A/n/nyan.html","router":1},
+    		"online-questionnaire-setup": 	{"url":"$A/o/online-questionnaire-setup.html","App":"module","Table":"participant"},
+    		"panel":    		  			{"url":"$A/p/panel.html","router":1},
+    		"particle":  		  			{"url":"$A/p/particle.html","router":1},
+    		"prices":  		  	  			{"url":"$A/p/prices.html","router":1},
+    		"participant-data":   			{"url":"$A/p/participant-data.html","App":"module","Table":"participant","form_module":"participant-form","router":1},
+    		"participant-form":   			{"url":"$A/p/participant-form.html","App":"module","Table":"participant"},
+            "radio-data":      	  			{"url":"$A/r/radio-data.html","App":"module","Table":"radio","form_module":"radio-form","router":1},
+    		"radio-form":      	  			{"url":"$A/r/radio-form.html","App":"module","Table":"radio"},
+            "select-data":        			{"url":"$A/s/select-data.html","App":"module","Table":"select","form_module":"select-form","router":1},
+    		"select-form":        			{"url":"$A/s/select-form.html","App":"module","Table":"select"},
+    		"services":  	  	  			{"url":"$A/s/services.html","router":1},
+    		"snow":  		  	  			{"url":"$A/s/snow.html","router":1},
+    		"text-input-data":    			{"url":"$A/t/text-input-data.html","App":"module","Table":"text-input","form_module":"text-input-form","router":1},
+    		"text-input-form":    			{"url":"$A/t/text-input-form.html","App":"module","Table":"text-input"},
+    		"trainers":  		  			{"url":"$A/t/trainers.html","router":1},
         }
         //------------------------------------
         $vm.local_url=function(url){
-            var urlR=url;
-            if($vm.localhost==true){
-                urlR=urlR.replace('https://apap-ohs.rt.org.au/','http://127.0.0.1:8000/woolcock-imr/apap-ohs/');
-            }
+            var urlR=url.replace("$A","https://vmiis.github.io/module-examples/modules");
+            if($vm.localhost==true) urlR=urlR.replace('https://vmiis.github.io/module-examples/','http://127.0.0.1:8000/vmiis/module-examples/');
             return urlR;
         }
         //------------------------------------
-        for(p in $vm.module_links) $vm.module_links[p]=$vm.local_url($vm.module_links[p]);
         for(p in $vm.module_list) $vm.module_list[p].url=$vm.local_url($vm.module_list[p].url);
         //------------------------------------
         $vm.default_title="Online Questionnaire";
@@ -84,16 +117,17 @@
         set_height();
         //-----------------------------------------
         $vm.start=function(){
-            $vm.init_v3({callback:function(){
+            $vm.clear_token();
+            $vm.init(function(){
                $vm.init_status=1;
                $vm.show_user();
-           }})
+           })
         }
         //------------------------------------
         $vm.menu_click=function(href){
             href=href.replace('?\/','');
             href=href.replace(/\//g,'_');
-            $vm.load_module_v2(href,$vm.root_layout_content_slot,{});
+            $vm.load_module(href,$vm.root_layout_content_slot,{});
         }
         //------------------------------------
         $vm.show=function(id){
@@ -114,13 +148,13 @@
         window.onresize=function(){set_height();}
         //------------------------------------
     </script>
-    <style main>
+    <style main-style>
         :root {
-            --menu-color: #000;
+            --menu-color: #fff;
             --menu-hover-color: #29eca6;
             --menu-hover-background-color: #555;
 
-            --dropdown-menu-color:#666;
+            --dropdown-menu-color:#fff;
             --dropdown-menu-background-color:#f9f9f9;
             --dropdown-menu-hover-color:#555;
             --dropdown-menu-hover-background-color:#ddd;
@@ -177,7 +211,7 @@
         }
         /*----------------------*/
     </style>
-    <script menu>
+    <script menu-code>
         //------------------------------------
         $('.vm-dropdown').on('click',function(e){
             var d=$(this).find('.vm-dropdown-content');
@@ -208,7 +242,7 @@
         }
         //------------------------------------
     </script>
-    <style menu>
+    <style menu-style>
         /*menu*/
         #vm-menu {
             overflow: hidden;
@@ -347,9 +381,9 @@
             to {max-height: 1000px;}
         }
     </style>
-    <script boot>
+    <script frame-code>
         //------------------------------------
-        var url1="https://www.vmiis.com/modules/starter/app01.html"; if($vm.localhost) url1="http://127.0.0.1:8000/vmiis/your-company-business-portal/modules/starter/app01.html";
+        var url1=$vm.module_list["frame"].url;
         var urls=[url1]; $vm.module_start_id=1;
         //---------------------------------------------
         $(urls).each(function(index,url){
